@@ -22,9 +22,7 @@ class Calculator {
     }
 
     chooseOperation(operation) {
-        //if current operation is empty then return
         if (this.currentOperand === '') return
-        //if previous operand is not equal to empty string
         if (this.previousOperand !== '') {
             this.compute()
         }
@@ -34,7 +32,30 @@ class Calculator {
     }
 
     compute() {
+        let computation
+        const prev = parseFloat(this.previousOperand)
+        const current = parseFloat(this.currentOperand)
+        if (isNaN(prev) || isNaN(current)) return
+        switch(this.operation){
+            case '+':
+                computation = prev + current
+                break;
+            case '-':
+                computation = prev - current
+                break;
+            case '*':
+                computation = prev + current
+                break;
+            case '÷':
+                computation = prev / current
+                break;
+            default:
+                return
 
+        }
+        this.currentOperand = computation
+        this.operation = undefined
+        this.previousOperand = ''
     }
 
     updateDisplay() {
@@ -66,4 +87,14 @@ operationButtons.forEach(button => {
         calculator.chooseOperation(button.innerText)
         calculator.updateDisplay()
     })
+})
+
+equalsButton.addEventListener('click', button => {
+   calculator.compute()
+   calculator.updateDisplay()
+})
+
+allClearButton.addEventListener('click', button => {
+   calculator.clear()
+   calculator.updateDisplay()
 })
